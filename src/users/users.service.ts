@@ -96,6 +96,5 @@ export class UsersService {
 
     this.logger.error(error);
     throw new InternalServerErrorException('Please check server logs');
-
   }
 }
