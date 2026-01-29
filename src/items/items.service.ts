@@ -1,8 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { ILike, Repository } from 'typeorm';
 import { CreateItemInput } from './dto/inputs/create-item.input';
 import { UpdateItemInput } from './dto/inputs/update-item.input';
+import { PaginationArgs, SearchArgs } from 'src/common/dto/args';
 import { Item } from './entities/item.entity';
 import { User } from 'src/users/entities/user.entity';
 
@@ -22,9 +23,29 @@ export class ItemsService {
     return newItem;
   }
 
-  async findAll(user: User): Promise<Item[]> {
-    //TODO: filtrar, paginar, etc.
-    return this.itemsRepository.find({ where: { user: { id: user.id } } });
+  async findAll(user: User, paginationArgs: PaginationArgs, searchArgs: SearchArgs): Promise<Item[]> {
+
+    const { limit, offset } = paginationArgs;
+    const { search } = searchArgs;
+    
+    //* INFO: El operador 'ILike' es específico de PostgreSQL y permite realizar búsquedas que no distinguen entre mayúsculas y minúsculas.
+    return this.itemsRepository.find({
+      where: {
+        user: { id: user.id },
+        name: search ? ILike(`%${search}%`) : undefined
+      },
+      skip: offset,
+      take: limit,
+    });
+
+    //* INFO: Con QueryBuilder podemos aplicar lógica más compleja si es necesario
+    // return this.itemsRepository.createQueryBuilder('item')
+    //   .where('item.userId = :userId', { userId: user.id })
+    //   .andWhere(search ? 'LOWER(item.name) ILIKE :name' : '1=1', { name: `%${search.toLowerCase()}%` })
+    //   .skip(offset)
+    //   .take(limit)
+    //   .getMany();
+
   }
 
   async findOne(id: string, user: User): Promise<Item> {

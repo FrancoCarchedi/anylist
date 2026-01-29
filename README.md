@@ -10,8 +10,9 @@ Proyecto de práctica realizado durante el aprendizaje de desarrollo de APIs con
 
 ## Inicialización del proyecto
 
-1. Clonar el proyecto
-2. Copiar el ```.env.template``` y renombrar a ```.env```
-3. Ejecutar ```yarn install```
-4. Levantar la imagen (Docker Desktop) ```docker-compose up -d```
-5. Levantar el backend de Nest ```yarn start:dev```
+1. Clonar el proyecto.
+2. Copiar el ```.env.template``` y renombrar a ```.env```.
+3. Ejecutar ```yarn install```.
+4. Levantar la imagen (Docker Desktop) ```docker-compose up -d```.
+5. Levantar el backend de Nest ```yarn start:dev```.
+6. Visitar la url ```localhost:3000/graphql``` y ejecutar la __Mutation__ executeSeed, para llenar la base de datos con información inicial.

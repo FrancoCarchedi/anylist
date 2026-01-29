@@ -43,6 +43,7 @@ export class User {
   lastUpdatedBy: User;
 
   @OneToMany(() => Item, (item) => item.user, { lazy: true })
-  @Field(() => [Item], { description: 'List of items owned by the user' })
+  //* Información: se removió el campo items y se agregó el resolve field en el resolver de users
+  // @Field(() => [Item], { description: 'List of items owned by the user' })
   items: Item[];
 }
